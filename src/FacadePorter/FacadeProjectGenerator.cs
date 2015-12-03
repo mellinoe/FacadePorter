@@ -30,7 +30,7 @@ namespace FacadePorter
                         string.Format(
                             AssemblyVersionFormat,
                                 (info.ProjectKVersion != null
-                                ? string.Format(ConditionFormat, "'$(TargetsProjectN)' == 'true'")
+                                ? Condition_TargetsAot
                                 : string.Empty),
                             info.ProjectNVersion);
                 }
@@ -48,7 +48,7 @@ namespace FacadePorter
                         string.Format(
                             AssemblyVersionFormat,
                                 (info.ProjectKVersion != null
-                                ? string.Format(ConditionFormat, "'$(TargetsDesktop)' == 'true'")
+                                ? Condition_TargetsDesktop
                                 : string.Empty),
                             info.DesktopVersion);
                 }
@@ -62,8 +62,40 @@ namespace FacadePorter
                 assemblyVersionBlock,
                 configurationsBlock);
 
-            string outputPath = Path.Combine(outputDir, info.Name + ".csproj");
-            File.WriteAllText(outputPath, fileText);
+            string outputPath = Path.Combine(outputDir, info.Name, "src", "facade");
+            Directory.CreateDirectory(outputPath);
+            string outputFile = Path.Combine(outputPath, info.Name + ".csproj");
+            File.WriteAllText(outputFile, fileText);
+
+            string projectJsonBody = "";
+            if (info.ProjectKVersion != null)
+            {
+                projectJsonBody += DnxCore50JsonRef;
+            }
+
+            if (info.ProjectNVersion != null)
+            {
+                if (projectJsonBody != "")
+                {
+                    projectJsonBody += ',' + Environment.NewLine;
+                }
+
+                projectJsonBody += NetNativeJsonRef;
+            }
+
+            if (info.DesktopVersion != null)
+            {
+                if (projectJsonBody != "")
+                {
+                    projectJsonBody += ',' + Environment.NewLine;
+                }
+
+                projectJsonBody += DesktopJsonRef;
+            }
+
+            string projectJsonFull = string.Format(ProjectJsonFileFormat, projectJsonBody);
+            string jsonOutputFile = Path.Combine(outputPath, "project.json");
+            File.WriteAllText(jsonOutputFile, projectJsonFull);
         }
 
         private const string ProjectKConfigurations =
@@ -87,5 +119,40 @@ namespace FacadePorter
 
         private const string ConditionFormat =
 @" Condition="" {0} """;
+
+        private string Condition_TargetsDesktop => string.Format(ConditionFormat, "'$(TargetsDesktop)' == 'true'");
+        private string Condition_TargetsAot => string.Format(ConditionFormat, "'$(IsAot)' == 'true'");
+        private string Condition_None => string.Empty;
+
+        private const string MscorlibReferenceFormat =
+@"    <TargetingPackReference Include=""mscorlib"" Condition="" '$(IsAot)' != 'true' "" />
+";
+
+        private const string ProjectJsonFileFormat =
+@"{{
+    ""frameworks"": {{
+{0}
+    }}
+}}";
+
+        private const string DnxCore50JsonRef =
+@"        ""dnxcore50"": {
+            ""dependencies"": {
+                ""Microsoft.TargetingPack.Private.CoreCLR"": ""1.0.0-rc2-23530""
+            }
+        }";
+        private const string DesktopJsonRef =
+@"        ""net46"": {
+            ""dependencies"": {
+                ""Microsoft.TargetingPack.NETFramework.v4.6"": ""1.0.0-rc2-23530""
+            }
+        }";
+
+        private const string NetNativeJsonRef =
+@"        ""netcore50"": {
+            ""dependencies"": {
+                ""Microsoft.TargetingPack.Private.NetNative"": ""1.0.0-rc2-23530""
+            }
+        }";
     }
 }

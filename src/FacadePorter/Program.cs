@@ -30,10 +30,10 @@ namespace FacadePorter
             FacadeProjectGenerator fpg = new FacadeProjectGenerator();
             foreach (FacadeBuildInfo info in infos)
             {
-                if (info.ProjectKVersion != null)
-                {
-                    Console.WriteLine(info.Name + " has a ProjectK facade.");
-                }
+                //if (info.ProjectKVersion != null)
+                //{
+                //    Console.WriteLine(info.Name + " has a ProjectK facade.");
+                //}
                 fpg.GenerateFacadeProject(info, outputDir);
             }
         }

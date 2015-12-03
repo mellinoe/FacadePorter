@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <TargetingPackReference Include="mscorlib" Condition="'$(IsAot)' != 'true'" />
+    
     <TargetingPackReference Include="System.Private.CoreLib" Condition="'$(IsAot)' == 'true'" />
   </ItemGroup>
 
