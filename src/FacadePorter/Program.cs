@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AssemblyBrowser
+namespace FacadePorter
 {
     public class Program
     {
         public static unsafe void Main(string[] args)
         {
+            string outputDir = "Output";
+            Directory.CreateDirectory(outputDir);
+
             string csvText = File.ReadAllText("Contracts.csv");
             StringReader sr = new StringReader(csvText);
             sr.ReadLine(); // Skip header.
@@ -18,11 +21,20 @@ namespace AssemblyBrowser
             {
                 FacadeBuildInfo fbi = FacadeBuildInfo.ParseFromLine(line);
 
-                if (fbi.ProjectNVersion != null || fbi.WindowsStoreVersion != null || fbi.DesktopVersion != null
-                    || fbi.ProjectKVersion != null || fbi.TestNetVersion != null || fbi.PhoneVersion != null)
+                if (fbi.ProjectNVersion != null || fbi.DesktopVersion != null || fbi.ProjectKVersion != null)
                 {
                     infos.Add(fbi);
                 }
+            }
+
+            FacadeProjectGenerator fpg = new FacadeProjectGenerator();
+            foreach (FacadeBuildInfo info in infos)
+            {
+                if (info.ProjectKVersion != null)
+                {
+                    Console.WriteLine(info.Name + " has a ProjectK facade.");
+                }
+                fpg.GenerateFacadeProject(info, outputDir);
             }
         }
     }
@@ -30,12 +42,13 @@ namespace AssemblyBrowser
     public class FacadeBuildInfo
     {
         public string Name { get; set; }
-        public string ProjectNVersion { get; set; }
-        public string WindowsStoreVersion { get; set; }
-        public string DesktopVersion { get; set; }
-        public string ProjectKVersion { get; set; }
-        public string TestNetVersion { get; set; }
-        public string PhoneVersion { get; set; }
+        public Version ProjectNVersion { get; set; }
+        public Version WindowsStoreVersion { get; set; }
+        public Version DesktopVersion { get; set; }
+        public Version ProjectKVersion { get; set; }
+        public Version TestNetVersion { get; set; }
+        public Version PhoneVersion { get; set; }
+        public bool HasNetCoreForCoreClrBuild { get; set; }
 
         public static unsafe FacadeBuildInfo ParseFromLine(string line)
         {
@@ -44,33 +57,35 @@ namespace AssemblyBrowser
             fbi.Name = elements[0];
             if (elements[2] == "Y")
             {
-                fbi.ProjectNVersion = elements[1];
+                fbi.ProjectNVersion = Version.Parse(elements[1]);
             }
 
             if (elements[4] == "Y")
             {
-                fbi.WindowsStoreVersion = elements[3];
+                fbi.WindowsStoreVersion = Version.Parse(elements[3]);
             }
 
             if (elements[6] == "Y")
             {
-                fbi.DesktopVersion = elements[5];
+                fbi.DesktopVersion = Version.Parse(elements[5]);
             }
 
             if (elements[8] == "Y")
             {
-                fbi.ProjectKVersion = elements[7];
+                fbi.ProjectKVersion = Version.Parse(elements[7]);
             }
 
             if (elements[10] == "Y")
             {
-                fbi.TestNetVersion = elements[9];
+                fbi.TestNetVersion = Version.Parse(elements[9]);
             }
 
             if (elements[12] == "Y")
             {
-                fbi.PhoneVersion = elements[11];
+                fbi.PhoneVersion = Version.Parse(elements[11]);
             }
+
+            fbi.HasNetCoreForCoreClrBuild = false;
 
             return fbi;
         }

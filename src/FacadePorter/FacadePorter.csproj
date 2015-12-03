@@ -12,6 +12,7 @@
     <ProjectGuid>{C1493ABB-24A3-4D1E-B034-3F316401CFD5}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FacadeProjectGenerator.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Windows_Debug|x64' " />
@@ -21,6 +22,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FacadeProjTemplate.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), dir.targets))\dir.targets" />
 </Project>
