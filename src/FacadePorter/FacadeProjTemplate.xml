@@ -7,16 +7,9 @@
     <IsAot Condition="'$(PackageTargetFramework)|$(PackageTargetRuntime)' == 'netcore50|aot'" />
   </PropertyGroup>
 
-  <!-- Help VS understand available configurations -->{2}
+  <!-- Help VS understand available configurations -->{2}{3}
 
-  <PropertyGroup Condition="'$(IsAot)' == 'true'">
-    <ProjectJson>NetNative\project.json</ProjectJson>
-    <ProjectLockJson>NetNative\project.lock.json</ProjectLockJson>
-  </PropertyGroup>
-
-  <ItemGroup>
-    
-    <TargetingPackReference Include="System.Private.CoreLib" Condition="'$(IsAot)' == 'true'" />
+  <ItemGroup>{4}
   </ItemGroup>
 
   <ItemGroup>
