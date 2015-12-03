@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 
 namespace FacadePorter
 {
@@ -30,10 +33,6 @@ namespace FacadePorter
             FacadeProjectGenerator fpg = new FacadeProjectGenerator();
             foreach (FacadeBuildInfo info in infos)
             {
-                //if (info.ProjectKVersion != null)
-                //{
-                //    Console.WriteLine(info.Name + " has a ProjectK facade.");
-                //}
                 fpg.GenerateFacadeProject(info, outputDir);
             }
         }
@@ -85,9 +84,35 @@ namespace FacadePorter
                 fbi.PhoneVersion = Version.Parse(elements[11]);
             }
 
-            fbi.HasNetCoreForCoreClrBuild = false;
+            string ncfccPath = Path.Combine(AppContext.BaseDirectory, "Facades", "NetCoreForCoreCLR", fbi.Name + ".dll");
+            if (File.Exists(ncfccPath))
+            {
+                if (IsFullFacade(ncfccPath))
+                {
+                    fbi.HasNetCoreForCoreClrBuild = true;
+                }
+            }
 
             return fbi;
+        }
+
+        private static readonly string[] s_skippedTypes =
+        {
+            "<Module>"
+        };
+
+        private static bool IsFullFacade(string ncfccPath)
+        {
+            using (var stream = File.OpenRead(ncfccPath))
+            using (var peReader = new PEReader(stream))
+            {
+                var mdReader = peReader.GetMetadataReader();
+                var realTypes = mdReader.TypeDefinitions.Select(tdh => mdReader.GetString(mdReader.GetTypeDefinition(tdh).Name))
+                    .Where(s => !s_skippedTypes.Contains(s)).ToArray();
+                bool isFullFacade = realTypes.Length == 0;
+
+                return isFullFacade;
+            }
         }
     }
 }

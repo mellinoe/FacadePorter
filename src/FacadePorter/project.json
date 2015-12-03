@@ -2,6 +2,7 @@
   "dependencies": {
     "Microsoft.NETCore.Console": "1.0.0-beta-23503",
     "System.Console": "4.0.0-beta-23503",
+    "System.Reflection.Metadata": "1.1.1-beta-23516"
   },
   "runtimes": {
     "win10-x64": {},

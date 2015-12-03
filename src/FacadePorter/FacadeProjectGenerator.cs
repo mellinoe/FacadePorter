@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,7 +59,7 @@ namespace FacadePorter
             }
 
             // Special .NET Native project.json references
-            string specialNetNativeJsonText = (info.HasNetCoreForCoreClrBuild) ? SpecialNetNativeJson : string.Empty;
+            string specialNetNativeJsonText = (info.HasNetCoreForCoreClrBuild) ? (Environment.NewLine + Environment.NewLine + SpecialNetNativeJson) : string.Empty;
 
             // targeting pack assembly references
             string assemblyRefs = "";
@@ -103,7 +105,16 @@ namespace FacadePorter
                 projectJsonBody += DnxCore50JsonRef;
             }
 
-            if (info.ProjectNVersion != null)
+            if (info.HasNetCoreForCoreClrBuild)
+            {
+                if (projectJsonBody != "")
+                {
+                    projectJsonBody += ',' + Environment.NewLine;
+                }
+
+                projectJsonBody += NetCoreForCoreClrJsonRef;
+            }
+            else if (info.ProjectNVersion != null)
             {
                 if (projectJsonBody != "")
                 {
@@ -126,25 +137,56 @@ namespace FacadePorter
             string projectJsonFull = string.Format(ProjectJsonFileFormat, projectJsonBody);
             string jsonOutputFile = Path.Combine(outputPath, "project.json");
             File.WriteAllText(jsonOutputFile, projectJsonFull);
+
+            if (info.HasNetCoreForCoreClrBuild)
+            {
+                string netNativeJsonText = string.Format(ProjectJsonFileFormat, NetNativeJsonRef);
+                Directory.CreateDirectory(Path.Combine(outputPath, "NetNative"));
+                string netNativeJsonOutputFile = Path.Combine(outputPath, "NetNative", "project.json");
+                File.WriteAllText(netNativeJsonOutputFile, netNativeJsonText);
+            }
         }
 
         private string[] GetProjectNRefs(string name)
         {
-            return new string[]
+            string facadeFile = Path.Combine(AppContext.BaseDirectory, "Facades", "NETNative", name + ".dll");
+            if (!File.Exists(facadeFile))
             {
-                "System.Private.CoreLib",
-                "System.Private.Reflection"
-            };
+                Console.WriteLine("Couldn't find .NET Native facade for " + name);
+                return new string[] { "System.Private.CoreLib" };
+            }
+            else
+            {
+                using (var stream = File.OpenRead(facadeFile))
+                using (var peReader = new PEReader(stream))
+                {
+                    var mdReader = peReader.GetMetadataReader();
+                    var refs = mdReader.AssemblyReferences.Select(arh => mdReader.GetAssemblyReference(arh))
+                        .Select(ar => mdReader.GetString(ar.Name));
+                    return refs.ToArray();
+                }
+            }
         }
 
         private string[] GetDesktopRefs(string name)
         {
-            return new string[]
+            string facadeFile = Path.Combine(AppContext.BaseDirectory, "Facades", "Desktop", name + ".dll");
+            if (!File.Exists(facadeFile))
             {
-                "System",
-                "System.Core",
-                "System.ComponentModel.Composition"
-            };
+                Console.WriteLine("Couldn't find Desktop facade for " + name);
+                return Array.Empty<string>();
+            }
+            else
+            {
+                using (var stream = File.OpenRead(facadeFile))
+                using (var peReader = new PEReader(stream))
+                {
+                    var mdReader = peReader.GetMetadataReader();
+                    var refs = mdReader.AssemblyReferences.Select(arh => mdReader.GetAssemblyReference(arh))
+                        .Select(ar => mdReader.GetString(ar.Name)).Where(s => s != "mscorlib");
+                    return refs.ToArray();
+                }
+            }
         }
 
         private const string ProjectKConfigurations =
@@ -197,6 +239,13 @@ namespace FacadePorter
             }
         }";
 
+        private const string NetCoreForCoreClrJsonRef =
+@"        ""netcore50"": {
+            ""dependencies"": {
+                ""Microsoft.TargetingPack.Private.CoreCLR"": ""1.0.0-rc2-23530""
+            }
+        }";
+
         private const string NetNativeJsonRef =
 @"        ""netcore50"": {
             ""dependencies"": {
@@ -208,7 +257,6 @@ namespace FacadePorter
 @"  <PropertyGroup Condition="" '$(IsAot)' == 'true' "">
     <ProjectJson>NetNative\project.json</ProjectJson>
     <ProjectLockJson>NetNative\project.lock.json</ProjectLockJson>
-  </PropertyGroup>
-";
+  </PropertyGroup>";
     }
 }
