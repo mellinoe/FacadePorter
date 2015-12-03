@@ -138,7 +138,7 @@ namespace FacadePorter
             string jsonOutputFile = Path.Combine(outputPath, "project.json");
             File.WriteAllText(jsonOutputFile, projectJsonFull);
 
-            if (info.HasNetCoreForCoreClrBuild)
+            if (info.HasNetCoreForCoreClrBuild && info.ProjectNVersion != null)
             {
                 string netNativeJsonText = string.Format(ProjectJsonFileFormat, NetNativeJsonRef);
                 Directory.CreateDirectory(Path.Combine(outputPath, "NetNative"));
@@ -211,7 +211,7 @@ namespace FacadePorter
         private const string ConditionFormat =
 @" Condition="" {0} """;
 
-        private string Condition_TargetsDesktop => string.Format(ConditionFormat, "'$(TargetsDesktop)' == 'true'");
+        private string Condition_TargetsDesktop => string.Format(ConditionFormat, "'$(PackageTargetFramework)' == 'net46'");
         private string Condition_TargetsAot => string.Format(ConditionFormat, "'$(IsAot)' == 'true'");
         private string Condition_DoesNotTargetAot => string.Format(ConditionFormat, "'$(IsAot)' != 'true'");
         private string Condition_None => string.Empty;
