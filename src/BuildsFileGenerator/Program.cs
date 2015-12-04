@@ -11,7 +11,7 @@ namespace BuildsFileGenerator
     {
         private const string usageText =
 @"Usage: BuildsFileGenerator.exe <corefx-src-dir>
-    - Generates "".builds"" as necessary in the corefx directory.";
+    - Updates/Generates "".builds"" MSBuild project files as necessary in the corefx directory.";
 
         public static int Main(string[] args)
         {
