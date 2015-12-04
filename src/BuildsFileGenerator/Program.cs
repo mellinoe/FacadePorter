@@ -43,7 +43,7 @@ namespace BuildsFileGenerator
         private static void CreateBuildsFile(string projSrcDir, string[] projFiles)
         {
             string includesBlock = "";
-            string libName = new FileInfo(projFiles[0]).Name;
+            string libName = new DirectoryInfo(projSrcDir).Parent.Name;
 
             foreach (string csprojPath in projFiles)
             {

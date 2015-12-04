@@ -9,6 +9,12 @@ namespace FacadePorter
 {
     public class Program
     {
+        private static readonly string[] s_ignoredFacades =
+        {
+            "System.Private.",
+            "Internal.Threading."
+        };
+
         public static unsafe void Main(string[] args)
         {
             string outputDir = "Output";
@@ -24,7 +30,8 @@ namespace FacadePorter
             {
                 FacadeBuildInfo fbi = FacadeBuildInfo.ParseFromLine(line);
 
-                if (fbi.ProjectNVersion != null || fbi.DesktopVersion != null || fbi.ProjectKVersion != null)
+                if ((fbi.ProjectNVersion != null || fbi.DesktopVersion != null || fbi.ProjectKVersion != null)
+                    && !s_ignoredFacades.Any(ignored => fbi.Name.Contains(ignored)))
                 {
                     infos.Add(fbi);
                 }
