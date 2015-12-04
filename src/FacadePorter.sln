@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacadePorter", "FacadePorter\FacadePorter.csproj", "{C1493ABB-24A3-4D1E-B034-3F316401CFD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildsFileGenerator", "BuildsFileGenerator\BuildsFileGenerator.csproj", "{D4CAABB3-369E-47BB-8144-C736AA004CB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Windows_Debug|x64 = Windows_Debug|x64
@@ -15,6 +17,10 @@ Global
 		{C1493ABB-24A3-4D1E-B034-3F316401CFD5}.Windows_Debug|x64.Build.0 = Windows_Debug|x64
 		{C1493ABB-24A3-4D1E-B034-3F316401CFD5}.Windows_Release|x64.ActiveCfg = Windows_Release|x64
 		{C1493ABB-24A3-4D1E-B034-3F316401CFD5}.Windows_Release|x64.Build.0 = Windows_Release|x64
+		{D4CAABB3-369E-47BB-8144-C736AA004CB7}.Windows_Debug|x64.ActiveCfg = Windows_Debug|x64
+		{D4CAABB3-369E-47BB-8144-C736AA004CB7}.Windows_Debug|x64.Build.0 = Windows_Debug|x64
+		{D4CAABB3-369E-47BB-8144-C736AA004CB7}.Windows_Release|x64.ActiveCfg = Windows_Release|x64
+		{D4CAABB3-369E-47BB-8144-C736AA004CB7}.Windows_Release|x64.Build.0 = Windows_Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

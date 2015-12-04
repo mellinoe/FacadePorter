@@ -4,7 +4,6 @@
   <PropertyGroup>
     <AssemblyName>{0}</AssemblyName>{1}
     <IsPartialFacadeAssembly>true</IsPartialFacadeAssembly>
-    <IsAot Condition="'$(PackageTargetFramework)|$(PackageTargetRuntime)' == 'netcore50|aot'">true</IsAot>
   </PropertyGroup>
 
   <!-- Help VS understand available configurations -->{2}{3}

@@ -211,9 +211,9 @@ namespace FacadePorter
         private const string ConditionFormat =
 @" Condition="" {0} """;
 
-        private string Condition_TargetsDesktop => string.Format(ConditionFormat, "'$(PackageTargetFramework)' == 'net46'");
-        private string Condition_TargetsAot => string.Format(ConditionFormat, "'$(IsAot)' == 'true'");
-        private string Condition_DoesNotTargetAot => string.Format(ConditionFormat, "'$(IsAot)' != 'true'");
+        private string Condition_TargetsDesktop => string.Format(ConditionFormat, "'$(TargetGroup)' == 'net46'");
+        private string Condition_TargetsAot => string.Format(ConditionFormat, "'$(TargetGroup)' == 'netcore50aot'");
+        private string Condition_DoesNotTargetAot => string.Format(ConditionFormat, "'$(TargetGroup)' != 'netcore50aot'");
         private string Condition_None => string.Empty;
 
         private const string ReferenceFormat =
@@ -254,7 +254,7 @@ namespace FacadePorter
         }";
 
         private const string SpecialNetNativeJson =
-@"  <PropertyGroup Condition="" '$(IsAot)' == 'true' "">
+@"  <PropertyGroup Condition="" '$(TargetGroup)' == 'netcore50aot' "">
     <ProjectJson>NetNative\project.json</ProjectJson>
     <ProjectLockJson>NetNative\project.lock.json</ProjectLockJson>
   </PropertyGroup>";
