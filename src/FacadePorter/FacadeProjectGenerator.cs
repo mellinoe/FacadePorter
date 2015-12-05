@@ -69,7 +69,7 @@ namespace FacadePorter
             }
             if (info.DesktopVersion != null)
             {
-                string[] desktopRefs = GetDesktopRefs(info.Name);
+                string[] desktopRefs = GetPartialFacadeRefs(info.Name, "Desktop");
                 foreach (string assm in desktopRefs)
                 {
                     assemblyRefs += Environment.NewLine + string.Format(ReferenceFormat, assm, Condition_TargetsDesktop);
@@ -78,20 +78,40 @@ namespace FacadePorter
 
             if (info.ProjectNVersion != null)
             {
-                string[] projectNRefs = GetProjectNRefs(info.Name);
+                string[] projectNRefs = GetPartialFacadeRefs(info.Name, "NETNative");
                 foreach (string assm in projectNRefs)
                 {
                     assemblyRefs += Environment.NewLine + string.Format(ReferenceFormat, assm, Condition_TargetsAot);
                 }
             }
 
+            string projectRefsText = "";
+            if (info.ProjectKVersion != null)
+            {
+                string[] projectKRefs = GetPartialFacadeRefs(info.Name, "ProjectK");
+                if (projectKRefs.Length > 0)
+                {
+                    foreach (string refName in projectKRefs)
+                    {
+                        string refPath = $"$(SourceDir){refName}\\src\\{refName}.csproj";
+                        projectRefsText += Environment.NewLine;
+                        projectRefsText += string.Format(ProjectRefFormat, refPath);
+                    }
+                }
+            }
+
+            string projectRefsFullItemGroup = string.Format(
+                ProjectRefsItemGroupFormat,
+                "'$(TargetGroup)' == 'dnxcore50'",
+                projectRefsText);
             string fileText = string.Format(
                 s_projTemplateText,
                 info.Name,
                 assemblyVersionBlock,
                 configurationsBlock,
                 specialNetNativeJsonText,
-                assemblyRefs);
+                assemblyRefs,
+                projectRefsFullItemGroup);
 
             string outputPath = Path.Combine(outputDir, info.Name, "src", "facade");
             Directory.CreateDirectory(outputPath);
@@ -147,34 +167,12 @@ namespace FacadePorter
             }
         }
 
-        private string[] GetProjectNRefs(string name)
+        private string[] GetPartialFacadeRefs(string name, string platform)
         {
-            string facadeFile = Path.Combine(AppContext.BaseDirectory, "Facades", "NETNative", name + ".dll");
+            string facadeFile = Path.Combine(AppContext.BaseDirectory, "Facades", platform, name + ".dll");
             if (!File.Exists(facadeFile))
             {
-                Console.WriteLine("Couldn't find .NET Native facade for " + name);
-                return new string[] { "System.Private.CoreLib" };
-            }
-            else
-            {
-                using (var stream = File.OpenRead(facadeFile))
-                using (var peReader = new PEReader(stream))
-                {
-                    var mdReader = peReader.GetMetadataReader();
-                    var refs = mdReader.AssemblyReferences.Select(arh => mdReader.GetAssemblyReference(arh))
-                        .Select(ar => mdReader.GetString(ar.Name));
-                    return refs.ToArray();
-                }
-            }
-        }
-
-        private string[] GetDesktopRefs(string name)
-        {
-            string facadeFile = Path.Combine(AppContext.BaseDirectory, "Facades", "Desktop", name + ".dll");
-            if (!File.Exists(facadeFile))
-            {
-                Console.WriteLine("Couldn't find Desktop facade for " + name);
-                return Array.Empty<string>();
+                throw new InvalidOperationException($"Couldn't find {platform} facade for " + name);
             }
             else
             {
@@ -258,5 +256,12 @@ namespace FacadePorter
     <ProjectJson>NetNative\project.json</ProjectJson>
     <ProjectLockJson>NetNative\project.lock.json</ProjectLockJson>
   </PropertyGroup>";
+
+        private const string ProjectRefsItemGroupFormat =
+@"  <ItemGroup Condition=""{0}"">{1}
+  </ItemGroup>";
+
+        private const string ProjectRefFormat =
+@"    <Project Reference Include=""{0}"" />";
     }
 }

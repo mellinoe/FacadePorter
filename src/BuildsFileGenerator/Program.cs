@@ -49,29 +49,41 @@ namespace BuildsFileGenerator
             {
                 string csproj = File.ReadAllText(csprojPath);
                 string relativePath = csprojPath.Substring(projSrcDir.Length + 1);
+                bool foundConfig = false;
                 if (csproj.Contains("'Debug|AnyCPU'") || csproj.Contains("'Windows_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
                         + string.Format(ProjectIncludeFormat, relativePath, "");
+                    foundConfig = true;
                 }
 
                 if (csproj.Contains("'netcore50aot_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
                         + string.Format(ProjectIncludeFormat, relativePath, "netcore50aot");
+                    foundConfig = true;
                 }
 
                 if (csproj.Contains("'netcore50_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
                         + string.Format(ProjectIncludeFormat, relativePath, "netcore50");
+                    foundConfig = true;
                 }
 
                 if (csproj.Contains("'net46_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
                         + string.Format(ProjectIncludeFormat, relativePath, "net46");
+                    foundConfig = true;
                 }
+
+                if (!foundConfig)
+                {
+                    includesBlock += Environment.NewLine
+                        + string.Format(ProjectIncludeFormat, relativePath, "");
+                }
+
             }
 
             string fileText = string.Format(s_buildsFileTemplateFormat, includesBlock);
