@@ -262,6 +262,6 @@ namespace FacadePorter
   </ItemGroup>";
 
         private const string ProjectRefFormat =
-@"    <Project Reference Include=""{0}"" />";
+@"    <ProjectReference Include=""{0}"" />";
     }
 }
