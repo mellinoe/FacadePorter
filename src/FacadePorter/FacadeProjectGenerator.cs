@@ -107,7 +107,7 @@ namespace FacadePorter
                 projectRefsFullItemGroup = Environment.NewLine +
                     string.Format(
                         ProjectRefsItemGroupFormat,
-                        "'$(TargetGroup)' == 'dnxcore50'",
+                        "'$(TargetGroup)' != 'netcore50aot'",
                         projectRefsText);
             }
 
@@ -254,7 +254,7 @@ namespace FacadePorter
         private const string DnxCore50JsonRef =
 @"        ""dnxcore50"": {
             ""dependencies"": {
-                ""Microsoft.TargetingPack.Private.CoreCLR"": ""1.0.0-rc2-23530""
+                ""Microsoft.TargetingPack.Private.CoreCLR"": ""1.0.0-rc2-23604""
             }
         }";
         private const string DesktopJsonRef =
@@ -267,14 +267,14 @@ namespace FacadePorter
         private const string NetCoreForCoreClrJsonRef =
 @"        ""netcore50"": {
             ""dependencies"": {
-                ""Microsoft.TargetingPack.Private.CoreCLR"": ""1.0.0-rc2-23530""
+                ""Microsoft.TargetingPack.Private.CoreCLR"": ""1.0.0-rc2-23604""
             }
         }";
 
         private const string NetNativeJsonRef =
 @"        ""netcore50"": {
             ""dependencies"": {
-                ""Microsoft.TargetingPack.Private.NetNative"": ""1.0.0-rc2-23530""
+                ""Microsoft.TargetingPack.Private.NetNative"": ""1.0.0-rc2-23607""
             }
         }";
 

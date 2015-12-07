@@ -371,10 +371,19 @@
     <Content Include="Facades\Desktop\System.Xml.XPath.XmlDocument.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\Microsoft.VisualBasic.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Facades\NetCoreForCoreCLR\Microsoft.Win32.Primitives.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.AppContext.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Collections.Concurrent.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Collections.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Collections.NonGeneric.dll">
@@ -437,7 +446,16 @@
     <Content Include="Facades\NetCoreForCoreCLR\System.Globalization.Extensions.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.IO.Compression.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.IO.Compression.ZipFile.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.IO.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.IO.FileSystem.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.IO.FileSystem.Primitives.dll">
@@ -449,13 +467,25 @@
     <Content Include="Facades\NetCoreForCoreCLR\System.IO.UnmanagedMemoryStream.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Linq.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Linq.Parallel.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Linq.Queryable.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Net.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Net.Http.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Net.Http.Rtc.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Net.NameResolution.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Net.NetworkInformation.dll">
@@ -482,7 +512,13 @@
     <Content Include="Facades\NetCoreForCoreCLR\System.Numerics.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Numerics.Vectors.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.ObjectModel.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Facades\NetCoreForCoreCLR\System.Private.Uri.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Reflection.Context.dll">
@@ -596,9 +632,6 @@
     <Content Include="Facades\NetCoreForCoreCLR\System.ServiceModel.Web.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Facades\NetCoreForCoreCLR\System.Text.Encoding.CodePages.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Text.Encoding.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -630,9 +663,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Xml.Linq.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Facades\NetCoreForCoreCLR\System.Xml.ReaderWriter.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Facades\NetCoreForCoreCLR\System.Xml.Serialization.dll">
