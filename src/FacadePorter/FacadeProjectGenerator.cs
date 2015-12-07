@@ -104,6 +104,26 @@ namespace FacadePorter
                 ProjectRefsItemGroupFormat,
                 "'$(TargetGroup)' == 'dnxcore50'",
                 projectRefsText);
+
+            string defaultConfigurationBlock = null;
+            if (info.ProjectKVersion != null)
+            {
+                defaultConfigurationBlock = ""; // Don't specify, just use ambient default (CoreCLR).
+            }
+            else if (info.ProjectNVersion != null)
+            {
+                string config = info.HasNetCoreForCoreClrBuild ? "netcore50aot" : "netcore50";
+                defaultConfigurationBlock = Environment.NewLine + string.Format(DefaultConfigFormat, config);
+            }
+            else if (info.DesktopVersion != null)
+            {
+                defaultConfigurationBlock = Environment.NewLine + string.Format(DefaultConfigFormat, "net46");
+            }
+            else
+            {
+                throw new InvalidOperationException("Default configuration didn't get set somehow");
+            }
+
             string fileText = string.Format(
                 s_projTemplateText,
                 info.Name,
@@ -111,7 +131,8 @@ namespace FacadePorter
                 configurationsBlock,
                 specialNetNativeJsonText,
                 assemblyRefs,
-                projectRefsFullItemGroup);
+                projectRefsFullItemGroup,
+                defaultConfigurationBlock);
 
             string outputPath = Path.Combine(outputDir, info.Name, "src", "facade");
             Directory.CreateDirectory(outputPath);
@@ -263,5 +284,12 @@ namespace FacadePorter
 
         private const string ProjectRefFormat =
 @"    <ProjectReference Include=""{0}"" />";
+
+        private const string DefaultConfigFormat =
+@"  <PropertyGroup>
+    <!-- Setting default TargetGroup before importing dir.prop -->
+    <TargetGroup Condition=""'$(TargetGroup)' == ''"">{0}</TargetGroup>
+  </PropertyGroup>
+";
     }
 }
