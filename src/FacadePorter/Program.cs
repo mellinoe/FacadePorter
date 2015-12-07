@@ -12,7 +12,8 @@ namespace FacadePorter
         private static readonly string[] s_ignoredFacades =
         {
             "System.Private.",
-            "Internal.Threading."
+            "Internal.Threading.",
+            "System.ServiceModel." // <- All in dotnet/WCF repo.
         };
 
         public static unsafe void Main(string[] args)
