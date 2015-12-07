@@ -10,9 +10,7 @@
 
   <ItemGroup>{4}
   </ItemGroup>
-
 {5}
-
   <ItemGroup>
     <None Include="project.json" />
   </ItemGroup>

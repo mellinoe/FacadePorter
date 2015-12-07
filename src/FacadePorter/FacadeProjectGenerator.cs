@@ -59,7 +59,9 @@ namespace FacadePorter
             }
 
             // Special .NET Native project.json references
-            string specialNetNativeJsonText = (info.HasNetCoreForCoreClrBuild) ? (Environment.NewLine + Environment.NewLine + SpecialNetNativeJson) : string.Empty;
+            string specialNetNativeJsonText = (info.HasNetCoreForCoreClrBuild && info.ProjectNVersion != null)
+                ? (Environment.NewLine + Environment.NewLine + SpecialNetNativeJson)
+                : string.Empty;
 
             // targeting pack assembly references
             string assemblyRefs = "";
@@ -99,11 +101,15 @@ namespace FacadePorter
                     }
                 }
             }
-
-            string projectRefsFullItemGroup = string.Format(
-                ProjectRefsItemGroupFormat,
-                "'$(TargetGroup)' == 'dnxcore50'",
-                projectRefsText);
+            string projectRefsFullItemGroup = "";
+            if (projectRefsText != "")
+            {
+                projectRefsFullItemGroup = Environment.NewLine +
+                    string.Format(
+                        ProjectRefsItemGroupFormat,
+                        "'$(TargetGroup)' == 'dnxcore50'",
+                        projectRefsText);
+            }
 
             string defaultConfigurationBlock = null;
             if (info.ProjectKVersion != null)
@@ -280,7 +286,8 @@ namespace FacadePorter
 
         private const string ProjectRefsItemGroupFormat =
 @"  <ItemGroup Condition=""{0}"">{1}
-  </ItemGroup>";
+  </ItemGroup>
+";
 
         private const string ProjectRefFormat =
 @"    <ProjectReference Include=""{0}"" />";
