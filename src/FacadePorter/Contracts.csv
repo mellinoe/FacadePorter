@@ -34,8 +34,9 @@ System.Linq.Queryable,4.0.1.0,N,4.0.0.0,Y,4.0.1.0,Y,4.0.1.0,N,4.0.1.0,Y,4.0.0.0,
 System.Linq.Parallel,4.0.1.0,N,4.0.0.0,Y,4.0.1.0,Y,4.0.1.0,N,4.0.1.0,N,4.0.1.0,N
 System.Net.Http,4.0.1.0,N,4.0.0.0,N,4.0.1.0,N,4.0.1.0,N,4.0.1.0,N,4.0.0.0,Y
 System.Net.Http.Rtc,4.0.1.0,N,4.0.0.0,Y,-,-,-,-,-,-,-,-
+System.Net.NameResolution,4.0.0.0,N,-,-,4.0.0.0,Y,4.0.0.0,N,4.0.0.0,N,-,-
 System.Net.NetworkInformation,4.1.0.0,N,4.0.10.0,Y,4.1.0.0,N,4.1.0.0,N,4.1.0.0,N,4.0.0.0,Y
-System.Net.Primitives,4.0.11.0,N,4.0.10.0,Y,4.0.11.0,Y,4.0.11.0,Y,4.0.11.0,Y,4.0.0.0,Y
+System.Net.Primitives,4.0.11.0,N,4.0.10.0,Y,4.0.11.0,Y,4.0.11.0,N,4.0.11.0,N,4.0.0.0,Y
 System.Net.Requests,4.0.11.0,N,4.0.10.0,Y,4.0.11.0,Y,4.0.11.0,N,4.0.11.0,N,4.0.0.0,Y
 System.Net.Sockets,4.1.0.0,N,-,-,4.1.0.0,N,4.1.0.0,N,4.1.0.0,N,-,-
 System.Net.WebHeaderCollection,4.0.1.0,N,4.0.0.0,Y,4.0.1.0,Y,4.0.1.0,N,4.0.1.0,N,-,-
@@ -125,9 +126,8 @@ System.IO.FileSystem.Watcher,-,-,-,-,4.0.0.0,Y,4.0.0.0,N,4.0.0.0,N,-,-
 System.IO.MemoryMappedFiles,-,-,-,-,4.0.0.0,Y,4.0.0.0,N,4.0.0.0,N,-,-
 System.IO.Pipes,-,-,-,-,4.0.0.0,Y,4.0.0.0,N,4.0.0.0,N,-,-
 System.Net.Http.WinHttpHandler,-,-,-,-,4.0.0.0,N,4.0.0.0,N,4.0.0.0,N,-,-
-System.Net.NameResolution,-,-,-,-,4.0.0.0,Y,4.0.0.0,Y,4.0.0.0,Y,-,-
-System.Net.Security,-,-,-,-,4.0.0.0,Y,4.0.0.0,Y,4.0.0.0,Y,-,-
-System.Net.Utilities,-,-,-,-,4.0.0.0,Y,4.0.0.0,Y,4.0.0.0,Y,-,-
+System.Net.Security,-,-,-,-,4.0.0.0,Y,4.0.0.0,N,4.0.0.0,N,-,-
+System.Net.Utilities,-,-,-,-,4.0.0.0,Y,4.0.0.0,N,4.0.0.0,N,-,-
 System.Reflection.Emit,-,-,-,-,4.0.1.0,Y,4.0.1.0,Y,4.0.1.0,Y,4.0.0.0,Y
 System.Reflection.Emit.ILGeneration,-,-,-,-,4.0.1.0,Y,4.0.1.0,Y,4.0.1.0,Y,4.0.0.0,Y
 System.Reflection.Emit.Lightweight,-,-,-,-,4.0.1.0,Y,4.0.1.0,Y,4.0.1.0,Y,4.0.0.0,Y
