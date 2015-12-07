@@ -42,6 +42,8 @@ namespace FacadePorter
             {
                 fpg.GenerateFacadeProject(info, outputDir);
             }
+            Console.WriteLine("Facade generation completed.");
+            Console.WriteLine("Output available at " + Path.Combine(Directory.GetCurrentDirectory(), outputDir));
         }
     }
 
