@@ -44,11 +44,17 @@ namespace BuildsFileGenerator
         {
             string includesBlock = "";
             string libName = new DirectoryInfo(projSrcDir).Parent.Name;
+            int partialFacadeCount = 0;
 
             foreach (string csprojPath in projFiles)
             {
                 string csproj = File.ReadAllText(csprojPath);
                 string relativePath = csprojPath.Substring(projSrcDir.Length + 1);
+                if (csproj.Contains("<IsPartialFacadeAssembly>true"))
+                {
+                    partialFacadeCount++;
+                }
+
                 bool foundConfig = false;
                 if (csproj.Contains("'Debug|AnyCPU'") || csproj.Contains("'Windows_Debug|AnyCPU'"))
                 {
@@ -83,7 +89,15 @@ namespace BuildsFileGenerator
                     includesBlock += Environment.NewLine
                         + string.Format(ProjectIncludeFormat, relativePath, Condition_None, "");
                 }
+            }
 
+            if (!includesBlock.Contains(@"Include=""" + libName + ".csproj") && includesBlock.Contains("facade"))
+            {
+                Console.WriteLine(libName + " only has a 'facade' project");
+            }
+            if (partialFacadeCount == 2)
+            {
+                Console.WriteLine(libName + " has a full facade and partial facade project that should be merged.");
             }
 
             string fileText = string.Format(s_buildsFileTemplateFormat, includesBlock);
