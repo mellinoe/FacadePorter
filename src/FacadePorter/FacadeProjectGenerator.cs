@@ -189,7 +189,7 @@ namespace FacadePorter
             {
                 string netNativeJsonText = string.Format(ProjectJsonFileFormat, NetNativeJsonRef);
                 Directory.CreateDirectory(Path.Combine(outputPath, "NetNative"));
-                string netNativeJsonOutputFile = Path.Combine(outputPath, "NetNative", "project.json");
+                string netNativeJsonOutputFile = Path.Combine(outputPath, "netcoreaot", "project.json");
                 File.WriteAllText(netNativeJsonOutputFile, netNativeJsonText);
             }
         }
@@ -215,26 +215,26 @@ namespace FacadePorter
         }
 
         private const string ProjectKConfigurations =
-@"  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "" />
-  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "" />";
+@"  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'"" />
+  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'Release|AnyCPU'"" />";
 
         private const string ProjectNConfigurations =
-@"  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'netcore50aot_Debug|AnyCPU' "" />
-  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'netcore50aot_Release|AnyCPU' "" />";
+@"  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'netcore50aot_Debug|AnyCPU'"" />
+  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'netcore50aot_Release|AnyCPU'"" />";
 
         private const string NetCoreForCoreClrConfigurations =
-@"  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'netcore50_Debug|AnyCPU' "" />
-  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'netcore50_Release|AnyCPU' "" />";
+@"  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'netcore50_Debug|AnyCPU'"" />
+  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'netcore50_Release|AnyCPU'"" />";
 
         private const string DesktopConfigurations =
-@"  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'net46_Debug|AnyCPU' "" />
-  <PropertyGroup Condition="" '$(Configuration)|$(Platform)' == 'net46_Release|AnyCPU' "" />";
+@"  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'net46_Debug|AnyCPU'"" />
+  <PropertyGroup Condition=""'$(Configuration)|$(Platform)' == 'net46_Release|AnyCPU'"" />";
 
         private const string AssemblyVersionFormat =
 @"    <AssemblyVersion{0}>{1}</AssemblyVersion>";
 
         private const string ConditionFormat =
-@" Condition="" {0} """;
+@" Condition=""{0}""";
 
         private string Condition_TargetsDesktop => string.Format(ConditionFormat, "'$(TargetGroup)' == 'net46'");
         private string Condition_TargetsAot => string.Format(ConditionFormat, "'$(TargetGroup)' == 'netcore50aot'");
@@ -279,7 +279,7 @@ namespace FacadePorter
         }";
 
         private const string SpecialNetNativeJson =
-@"  <PropertyGroup Condition="" '$(TargetGroup)' == 'netcore50aot' "">
+@"  <PropertyGroup Condition=""'$(TargetGroup)' == 'netcore50aot'"">
     <ProjectJson>NetNative\project.json</ProjectJson>
     <ProjectLockJson>NetNative\project.lock.json</ProjectLockJson>
   </PropertyGroup>";

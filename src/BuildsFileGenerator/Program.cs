@@ -53,35 +53,35 @@ namespace BuildsFileGenerator
                 if (csproj.Contains("'Debug|AnyCPU'") || csproj.Contains("'Windows_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
-                        + string.Format(ProjectIncludeFormat, relativePath, "");
+                        + string.Format(ProjectIncludeFormat, relativePath, Condition_None, "");
                     foundConfig = true;
                 }
 
                 if (csproj.Contains("'netcore50aot_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
-                        + string.Format(ProjectIncludeFormat, relativePath, "netcore50aot");
+                        + string.Format(ProjectIncludeFormat, relativePath, Condition_TargetsWindow, "netcore50aot");
                     foundConfig = true;
                 }
 
                 if (csproj.Contains("'netcore50_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
-                        + string.Format(ProjectIncludeFormat, relativePath, "netcore50");
+                        + string.Format(ProjectIncludeFormat, relativePath, Condition_TargetsWindow, "netcore50");
                     foundConfig = true;
                 }
 
                 if (csproj.Contains("'net46_Debug|AnyCPU'"))
                 {
                     includesBlock += Environment.NewLine
-                        + string.Format(ProjectIncludeFormat, relativePath, "net46");
+                        + string.Format(ProjectIncludeFormat, relativePath, Condition_TargetsWindow, "net46");
                     foundConfig = true;
                 }
 
                 if (!foundConfig)
                 {
                     includesBlock += Environment.NewLine
-                        + string.Format(ProjectIncludeFormat, relativePath, "");
+                        + string.Format(ProjectIncludeFormat, relativePath, Condition_None, "");
                 }
 
             }
@@ -91,9 +91,12 @@ namespace BuildsFileGenerator
         }
 
         private const string ProjectIncludeFormat =
-@"    <Project Include=""{0}"">
-      <AdditionalProperties>TargetGroup={1}</AdditionalProperties>
+@"    <Project Include=""{0}""{1}>
+      <AdditionalProperties>TargetGroup={2}</AdditionalProperties>
     </Project>";
+
+        private const string Condition_TargetsWindow = @" Condition=""'$(TargetsWindows)' == 'true'""";
+        private const string Condition_None = "";
 
         private static readonly string s_buildsFileTemplateFormat = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "BuildsFileTemplate.xml"));
     }
