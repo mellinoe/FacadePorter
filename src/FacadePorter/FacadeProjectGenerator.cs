@@ -107,7 +107,7 @@ namespace FacadePorter
                 projectRefsFullItemGroup = Environment.NewLine +
                     string.Format(
                         ProjectRefsItemGroupFormat,
-                        "'$(TargetGroup)' != 'netcore50aot'",
+                        "'$(TargetGroup)' != 'netcore50aot' And '$(TargetGroup)' != 'net46'",
                         projectRefsText);
             }
 
