@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FacadePorter
 {
@@ -188,8 +184,8 @@ namespace FacadePorter
             if (info.HasNetCoreForCoreClrBuild && info.ProjectNVersion != null)
             {
                 string netNativeJsonText = string.Format(ProjectJsonFileFormat, NetNativeJsonRef);
-                Directory.CreateDirectory(Path.Combine(outputPath, "netcoreaot"));
-                string netNativeJsonOutputFile = Path.Combine(outputPath, "netcoreaot", "project.json");
+                Directory.CreateDirectory(Path.Combine(outputPath, "netcore50aot"));
+                string netNativeJsonOutputFile = Path.Combine(outputPath, "netcore50aot", "project.json");
                 File.WriteAllText(netNativeJsonOutputFile, netNativeJsonText);
             }
         }
@@ -280,8 +276,8 @@ namespace FacadePorter
 
         private const string SpecialNetNativeJson =
 @"  <PropertyGroup Condition=""'$(TargetGroup)' == 'netcore50aot'"">
-    <ProjectJson>netcoreaot\project.json</ProjectJson>
-    <ProjectLockJson>netcoreaot\project.lock.json</ProjectLockJson>
+    <ProjectJson>netcore50aot\project.json</ProjectJson>
+    <ProjectLockJson>netcore50aot\project.lock.json</ProjectLockJson>
   </PropertyGroup>";
 
         private const string ProjectRefsItemGroupFormat =
